@@ -17,6 +17,27 @@ def center_window(win):
     y = (win.winfo_screenheight() // 2) - (height // 2)
     win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
+
+def delete_preset(choice, menu):
+    file = open('presets.txt', 'r+')
+    contents = file.read()
+    file.close()
+    if str(dropdown_var.get()) in contents:
+        file = open('presets.txt', 'r+')
+        lines = file.readlines()
+        for indx, line in enumerate(lines):
+            if str(dropdown_var.get()) in line:
+                lines.pop(indx)
+                file.close()
+                dropdown_var.set(choice[indx - 1])
+                choice.pop(indx)
+                break
+        file = open('presets.txt', 'w')
+        file.writelines(lines)
+        file.close()
+        menu.configure(values=choice)
+
+
 def create_window():
     window = tkinter.Toplevel(root)
     pop_up_frame = ttk.Frame(window, padding='25 25 25 25')
@@ -156,8 +177,9 @@ ttk.Button(mainframe, text='Generate', command=create_object).grid(column=4, row
 ttk.Button(mainframe, text='Copy to clipboard', command=copy_clipboard).grid(column=2, row=5, sticky=W)
 ttk.Button(mainframe, text='Save preset', command=save_preset).grid(column=2, row=1, sticky=W)
 ttk.Button(mainframe, text='Load preset', command=load_preset).grid(column=2, row=1, sticky=E)
-ttk.Button(mainframe, text='Add preset', command=lambda: add_preset(choice, pop_menu)).grid(column=2, row=0, sticky=(W, E))
+ttk.Button(mainframe, text='Add preset', command=lambda: add_preset(choice, pop_menu)).grid(column=2, row=0, sticky=W)
 ttk.Button(mainframe, text='Rename', command=create_window).grid(column=1, row=1, sticky=W)
+ttk.Button(mainframe, text='Delete preset', command=lambda: delete_preset(choice, pop_menu)).grid(column=2, row=0, sticky=E)
 
 ttk.Label(mainframe, text='Length').grid(column=1, row=2, sticky=W)
 ttk.Label(mainframe, text='Password').grid(column=1, row=4, sticky=W)
