@@ -4,6 +4,8 @@ from tkinter import ttk
 import tkinter
 
 
+file = open('presets.txt', 'w+')
+file.close()
 root = Tk()
 root.title('Password Generator')
 root.minsize(width=350, height=100)
@@ -205,7 +207,5 @@ for child in mainframe.winfo_children():
 
 length_entry.focus()
 center_window(root)
-file = open('presets.txt', 'a+')
-file.close()
 root.mainloop()
 
